@@ -1,7 +1,11 @@
 import "./navabar.scss";
 import {
+  ChatBubbleOutline,
   DarkModeOutlined,
+  FullscreenExit,
   LanguageOutlined,
+  ListOutlined,
+  NotificationsNoneOutlined,
   SearchOutlined,
 } from "@mui/icons-material";
 
@@ -17,23 +21,32 @@ function Navbar() {
         {/* items */}
         <div className="items">
           <div className="item">
-            <LanguageOutlined />
+            <LanguageOutlined className="icon" />
             English
           </div>
           <div className="item">
-            <DarkModeOutlined />
+            <DarkModeOutlined className="icon" />
           </div>
           <div className="item">
-            <DarkModeOutlined />
+            <FullscreenExit className="icon" />
           </div>
           <div className="item">
-            <DarkModeOutlined />
+            <NotificationsNoneOutlined className="icon" />
+            <div className="counter">1</div>
           </div>
           <div className="item">
-            <DarkModeOutlined />
+            <ChatBubbleOutline className="icon" />
+            <div className="counter">2</div>
           </div>
           <div className="item">
-            <DarkModeOutlined />
+            <ListOutlined className="icon" />
+          </div>
+          <div className="item">
+            <img
+              src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+              alt=""
+              className="avatar"
+            />
           </div>
         </div>
       </div>
