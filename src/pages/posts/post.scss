@@ -1,0 +1,21 @@
+.local-bootstrap {
+  @import "~bootstrap/scss/bootstrap";
+}
+
+.post {
+  display: flex;
+  width: 100%;
+
+  .postContainer {
+    flex: 6;
+
+    .padding {
+      padding: 25px;
+    }
+  }
+}
+
+.postNew {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}

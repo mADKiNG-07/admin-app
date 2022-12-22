@@ -2,8 +2,7 @@ import "./sidebar.scss";
 import {
   Dashboard,
   PersonOutline,
-  Store,
-  CreditCard,
+  CandlestickChart,
   LocalShipping,
   Assessment,
   NotificationsNone,
@@ -12,7 +11,9 @@ import {
   Settings,
   AccountCircle,
   Logout,
+  PostAdd,
 } from "@mui/icons-material";
+import { NavLink } from "react-router-dom";
 
 function Sidebar() {
   return (
@@ -29,18 +30,23 @@ function Sidebar() {
             <span>Dashboard</span>
           </li>
           <p className="title">LIST</p>
-
           <li>
-            <PersonOutline className="icon" />
-            <span>Users</span>
+            <NavLink className="navlink" to="/users">
+              <PersonOutline className="icon" />
+              <span>Users</span>
+            </NavLink>
           </li>
           <li>
-            <Store className="icon" />
-            <span>Products</span>
+            <NavLink className="navlink" to="/post">
+              <PostAdd className="icon" />
+              <span>Posts</span>
+            </NavLink>
           </li>
           <li>
-            <CreditCard className="icon" />
-            <span>Orders</span>
+            <NavLink className="navlink" to="/analyst">
+              <CandlestickChart className="icon" />
+              <span>Analyst</span>
+            </NavLink>
           </li>
           <li>
             <LocalShipping className="icon" />

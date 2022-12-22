@@ -1,0 +1,100 @@
+.postcard {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  -webkit-box-shadow: 2px 4px 1px 1px rgba(0, 0, 0, 0.47);
+  box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+  border-radius: 20px;
+  height: 570px;
+  width: 500px;
+  padding: 0;
+  margin-bottom: 20px;
+
+  .top {
+    margin: 0;
+
+    .cryptoPair {
+      position: absolute;
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      width: 130px;
+      height: 30px;
+      margin: 10px;
+      padding: 0px;
+      background-color: white;
+      border-radius: 60px;
+
+      .img1 {
+        margin-left: 5px;
+        z-index: 1;
+      }
+
+      .img2 {
+        margin-left: -7px;
+        z-index: 0;
+      }
+
+      p {
+        margin-left: 7px;
+        font-size: smaller;
+      }
+    }
+
+    .image {
+      border-radius: 20px 20px 0px 0px;
+    }
+  }
+
+  .bottom {
+    padding: 25px;
+    .title,
+    .title2 {
+      font-size: 12px;
+      font-weight: 800;
+      font-family: "Urbanist", sans-serif;
+    }
+
+    .text {
+      font-family: "Open Sans", sans-serif;
+      margin-top: 7px;
+      font-size: 14px;
+      color: #515151;
+    }
+
+    .title2 {
+      margin-top: 30px;
+    }
+
+    .navlink {
+      text-decoration: none;
+    }
+
+    button {
+      margin-top: 27px;
+      text-decoration: none;
+      color: white;
+      border-radius: 20px;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #5b99a4;
+      border: none;
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #30717d;
+        transition: 0.3s ease-in-out;
+      }
+
+      ion-icon {
+        font-size: 24px;
+      }
+
+      p {
+        margin-left: 7px;
+      }
+    }
+  }
+}

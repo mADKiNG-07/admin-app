@@ -1,0 +1,56 @@
+.datatable {
+  height: 500px;
+  padding: 20px;
+
+  .cellWithStatus {
+    padding: 5px;
+    border-radius: 5px;
+
+    &.Free {
+      background-color: rgba(0, 128, 0, 0.05);
+      color: green;
+    }
+    &.Monthly {
+      background-color: rgba(255, 217, 0, 0.05);
+      color: goldenrod;
+    }
+    &.Three-Months {
+      background-color: rgba(255, 0, 0, 0.05);
+      color: crimson;
+    }
+    &.Annually {
+      background-color: rgba(0, 0, 255, 0.05);
+      color: rgb(1, 90, 126);
+    }
+  }
+
+  .cellWithCountry {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      margin-right: 7px;
+    }
+  }
+
+  .cellAction {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .viewButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: darkblue;
+      border: 0.5px solid rgba(0, 0, 139, 0.596);
+    }
+
+    .deleteButton {
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: crimson;
+      border: 0.5px solid rgba(220, 20, 60, 0.6);
+    }
+  }
+}
