@@ -1,0 +1,64 @@
+.identity {
+  display: flex;
+
+  .right {
+    background-image: url(./../../imgs/sign.jpg);
+    background-size: cover;
+    background-position: top center;
+    flex: 5;
+  }
+
+  .left {
+    flex: 3;
+    min-height: 100vh;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    // justify-content: center;
+    align-items: center;
+
+    .contain {
+      width: 80%;
+      margin-top: 50px;
+    }
+
+    .txtHeader {
+      // width: 300px;
+      margin-bottom: 20px;
+      // margin-left: 0;
+      // margin-left: 35px;
+
+      h2 {
+        font-size: 30px;
+        font-weight: 800;
+        color: rgb(130, 130, 130);
+        line-height: 1.2;
+        font-family: "Aclonica", sans-serif;
+      }
+
+      p {
+        // margin-top: 10px;
+        font-size: 18px;
+        width: 320px;
+      }
+    }
+  }
+}
+
+.prev_next {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(116, 116, 116);
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 1157px) {
+  .right {
+    display: none;
+  }
+}

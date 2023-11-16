@@ -1,0 +1,60 @@
+.local-bootstrap {
+  @import "~bootstrap/scss/bootstrap";
+}
+
+.Login {
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.73),
+      rgba(0, 0, 0, 0.73)
+    ),
+    url(./../../imgs/lbg.jpg);
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loginContainer {
+    width: 700px;
+    height: 400px;
+    background-color: #fff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    h6 {
+      font-weight: bolder;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+      color: rgb(91, 174, 246);
+    }
+
+    p {
+      width: 400px;
+    }
+  }
+}
+
+.input-group-addon {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+.errmsg {
+  background-color: lightpink;
+  color: firebrick;
+  font-weight: bold;
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}

@@ -13,8 +13,11 @@ function Post() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://itrendsanalytics.herokuapp.com/posts/all-posts")
-      .then((res) => setData(res.data))
+      .get("http://localhost:3000/posts/all-posts")
+      .then((res) => {
+        setData(res.data);
+        console.log(res.data);
+      })
       .catch((err) => console.log(err, "it has an error"));
   });
 

@@ -1,19 +1,64 @@
 .sidebar {
-  flex: 1;
+  flex: 1.5;
   border-right: 0.5px solid rgb(235, 235, 235);
   min-height: 100vh;
   background-color: white;
 
   .top {
-    height: 50px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
+    // margin-left: 25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 
-    .logo {
-      font-size: 20px;
+    .username {
+      font-size: 18px;
       font-weight: bold;
-      color: #586ba4;
+      margin-bottom: 0;
+      padding: 0px;
+    }
+
+    .details {
+      // margin-left: 10px;
+      line-height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+        border-radius: 50%;
+        background-color: #797979;
+      }
+    }
+
+    .email {
+      font-size: 13px;
+      padding: 0px;
+      font-weight: 400;
+    }
+
+    .generate {
+      border: none;
+      padding: 6px 20px;
+      border-radius: 6px;
+      margin-top: 13px;
+      font-size: 13px;
+      font-weight: normal;
+      display: flex;
+      align-items: center;
+      color: white;
+      background-color: #999;
+
+      .icon2 {
+        font-size: 18px;
+        margin-right: 5px;
+        color: rgb(255, 255, 255);
+      }
     }
   }
 
@@ -42,20 +87,25 @@
         display: flex;
         align-items: center;
         padding: 5px;
+        margin-top: 8px;
 
-        &:hover {
-          background-color: #f2efff;
-        }
+        // &:hover {
+        //   background-color: rgba(225, 161, 0, 0.185);
+        // }
 
         .icon {
           font-size: 18px;
-          color: #586ba4;
+          color: rgb(225, 161, 0);
+        }
+
+        .red {
+          color: rgb(225, 0, 0);
         }
 
         span {
-          font-size: 13px;
-          font-weight: 600;
-          color: #888;
+          font-size: 15px;
+          font-weight: 500;
+          color: #797979;
           margin-left: 10px;
         }
 
@@ -70,25 +120,28 @@
   }
 
   .bottom {
+    position: fixed;
     display: flex;
     align-items: center;
+    // position: absolute;
+    bottom: 0;
     margin: 10px;
+    padding-left: 10px;
 
-    .colorOptions {
-      width: 20px;
-      height: 20px;
-      border-radius: 5px;
-      border: 1px solid #7451f8;
-      cursor: pointer;
-      margin: 5px;
+    // // &:hover {
+    //   background-color: rgba(225, 161, 0, 0.185);
+    // }
 
-      &:nth-child(1) {
-        background-color: whitesmoke;
-      }
+    .icon {
+      font-size: 18px;
+      color: rgb(225, 0, 0);
+    }
 
-      &:nth-child(2) {
-        background-color: #333;
-      }
+    span {
+      font-size: 15px;
+      font-weight: 500;
+      color: #888;
+      margin-left: 10px;
     }
   }
 }

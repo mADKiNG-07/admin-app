@@ -9,6 +9,10 @@ import Post from "./pages/posts/Post";
 import MPost from "./pages/makePost/MPost";
 import Analyst from "./pages/analyst/Analyst";
 import AnalystDetails from "./pages/analystDetails/AnalystDetails";
+import Verify from "./pages/verify/Verify";
+import Identity from "./pages/identity/Identity";
+import IdentityBack from "./pages/identity_back/IdentityBack";
+import SSN from "./pages/ssn/Ssn";
 
 
 function App() {
@@ -18,7 +22,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
-            <Route index element={<Home />} />
+            <Route path="home" element={<Home />} />
 
             <Route path="login" element={<Login />} />
 
@@ -42,6 +46,18 @@ function App() {
             <Route path="signup" element={<Signup />} />
 
             <Route path="makepost" element={<MPost />} />
+
+            {/* <Route path="verify/:email" element={<Verify />} /> */}
+
+            <Route path="verify">
+              <Route path=":email" element={<Verify />} />
+            </Route>
+
+            <Route path="identity" element={<Identity />} />
+
+            <Route path="identity_back" element={<IdentityBack />} />
+
+            <Route path="ssn" element={<SSN />} />
 
           </Route>
         </Routes>

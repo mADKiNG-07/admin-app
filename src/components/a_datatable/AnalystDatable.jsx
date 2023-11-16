@@ -80,7 +80,7 @@ function AnalystDatable() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://itrendsanalytics.herokuapp.com/users/viewAnalyst")
+      .get("https://intrendsanalytics.herokuapp.com/users/viewAnalyst")
       .then((res) => setData(res.data))
       .catch((err) => console.log(err, "it has an error"));
   });

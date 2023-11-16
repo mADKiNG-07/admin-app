@@ -1,6 +1,11 @@
 import "./signup.scss";
 import React, { useState } from "react";
 import axios from "axios";
+import FilesDragAndDrop from "./../../components/filesDragAndDrop/FilesDragAndDrop";
+import { NavLink } from "react-router-dom";
+import app from "./../../config/firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 function SignUp() {
   // states for the form
@@ -29,7 +34,7 @@ function SignUp() {
         dOB
     );
     axios
-      .post("https://itrendsanalytics.herokuapp.com/users/add-user", {
+      .post("https://intrendsanalytics.herokuapp.com/users/add-user", {
         fName: firstname,
         lName: lastName,
         dob: dOB,
@@ -46,92 +51,92 @@ function SignUp() {
         console.error(err.response.data);
         alert(err.response.data);
       });
-    // try {
-    //   let res = await fetch(
-    //     "https://itrendsanalytics.herokuapp.com/users/add-user",
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify({
-    //         fName: firstname,
-    //         lName: lastName,
-    //         dob: dOB,
-    //         email: email,
-    //         password: "hihlifwe",
-    //         country: country,
-    //         phoneNumber: mobileNumber,
-    //       }),
-    //       headers: { "Content-Type": "application/json" },
-    //     }
-    //   );
-    //   let resJson = await res.json();
-    //   if (res.status === 200) {
-    //     setFirstName("");
-    //     setLastName("");
-    //     setEmail("");
-    //     setCountry("");
-    //     setDOB("");
-    //     setMobileNumber("");
-    //   } else {
-    //     console.log("Error");
-    //   }
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  };
+
+  const onUpload = (files) => {
+    console.log(files);
+  };
+
+  const signup = () => {
+    const auth = getAuth();
+    const storage = getStorage();
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up
+        const user = userCredential.user;
+        const storageRef = ref(storage, `${email}/.default/`); // Make sure to include a trailing slash
+
+        // Create an empty file with a known name (e.g., ".keep") to simulate a folder
+        const dummyFileRef = storageRef;
+
+        // Put an empty Blob as the content of the dummy file
+        uploadBytes(dummyFileRef, new Blob([]))
+          .then(() => {
+            // Folder "new" created
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // Handle the error
+          });
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
   };
 
   return (
-    <div className="signup local-bootstrap">
+    <div className="signup">
       <div className="left">
-        <div className="txtHeader">
-          <h2>Create your account</h2>
-        </div>
-        <div className="alt">
-          <button type="button" className="login-with-google-btn">
-            Sign up with Google
-          </button>
-        </div>
-        <div className="lo">
-          <h2 className="orline">
-            <span>or</span>
-          </h2>
-        </div>
-        <div className="formContainer">
-          <form onSubmit={handleSubmit}>
-            <div className="row">
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="firstName"
-                  placeholder="First Name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="col">
-                <input
-                  type="text"
-                  className="form-control"
-                  id="lastName"
-                  placeholder="Last Name"
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-group mt-3">
-              <input
-                type="email"
-                className="form-control"
-                id="email"
-                placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
+        <div className="contain">
+          <div className="txtHeader">
+            <h2>Create your account</h2>
+            <p className="lead">
+              Take advantage of proven solutions to achieve cryptocoin success
+            </p>
+          </div>
 
-            <div className="row mt-3">
-              <div className="col">
+          <div className="formContainer">
+            <form onSubmit={handleSubmit}>
+              <div className="row">
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="firstName"
+                    placeholder="First Name"
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="col">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="lastName"
+                    placeholder="Last Name"
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="form-group mt-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+
+              <div className="form-group mt-3">
                 <input
                   type="password"
                   className="form-control"
@@ -142,66 +147,97 @@ function SignUp() {
                 />
               </div>
 
-              <div className="col">
-                <select
-                  id="inputCountry"
-                  className="form-control"
-                  onChange={(e) => setCountry(e.target.value)}
-                >
-                  <option value>Country...</option>
-                  <option>Angola</option>
-                  <option>Togo</option>
-                  <option>Ukraine</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="row mt-3">
-              <div className="col">
+              <div className="form-check mt-4">
                 <input
-                  type="text"
-                  className="form-control"
-                  id="phoneNumber"
-                  placeholder="Phone Number"
-                  onChange={(e) => setMobileNumber(e.target.value)}
+                  className="form-check-input"
+                  type="checkbox"
+                  value=""
+                  id="flexCheckDefault"
                   required
                 />
+                <label className="form-check-label smalltext">
+                  I accept the Privacy Policy and the Terms of Service
+                </label>
               </div>
-              <div className="col">
-                <input
-                  type="date"
-                  className="form-control"
-                  id="date"
-                  onChange={(e) => setDOB(e.target.value)}
-                />
+
+              <div className="bonttom d-grid gap-2 mt-2">
+                <NavLink
+                  className="d-grid gap-2 nnavlink"
+                  to={`/verify/${email}`}
+                >
+                  <button
+                    type="submit"
+                    className="btn btn-secondary mt-3"
+                    onClick={signup()}
+                  >
+                    Next
+                  </button>
+                </NavLink>
+
+                <div className="login">
+                  <p>
+                    Already have an account?{" "}
+                    <span className="linkk">
+                      <NavLink to="#" className="nvlink">
+                        Login
+                      </NavLink>
+                    </span>
+                  </p>
+                </div>
+
+                {/* Modal */}
+                <div
+                  class="modal fade"
+                  id="exampleModalToggle"
+                  // data-bs-backdrop="static"
+                  // data-bs-keyboard="false"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalToggleLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h1
+                          class="modal-title fs-5"
+                          id="exampleModalToggleLabel"
+                        >
+                          Verify Account
+                        </h1>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body box">
+                        <FilesDragAndDrop onUpload={onUpload} />
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >
+                          Close
+                        </button>
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          data-bs-target="#exampleModalToggle2"
+                          data-bs-toggle="modal"
+                          data-bs-dismiss="modal"
+                        >
+                          Understood
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-
-            <div className="form-check mt-4">
-              <input
-                className="form-check-input"
-                type="checkbox"
-                value=""
-                id="flexCheckDefault"
-                required
-              />
-              <label className="form-check-label smalltext">
-                I accept the Privacy Policy and the Terms of Service
-              </label>
-            </div>
-
-            <div className="bonttom mt-2">
-              <button type="submit" className="btn btn-secondary btnn mt-3">
-                Sign up
-              </button>
-
-              <div className="login">
-                <p>
-                  Already have an account? <span>Login</span>
-                </p>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
 

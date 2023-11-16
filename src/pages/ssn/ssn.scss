@@ -1,0 +1,129 @@
+.ssn {
+  // display: flex;
+
+  .right {
+    background-image: url(./../../imgs/sign.jpg);
+    background-size: cover;
+    background-position: top center;
+    flex: 5;
+  }
+
+  .left {
+    // flex: 3;
+    // min-height: 100vh;
+    // background-color: white;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+
+    // .contain {
+    //   width: 80%;
+    //   margin-top: 50px;
+    // }
+
+    .txtHeader {
+      // width: 300px;
+      // margin-bottom: 10px;
+      // margin-left: 0;
+      // margin-left: 35px;
+
+      h2 {
+        font-size: 30px;
+        font-weight: 800;
+        color: rgb(130, 130, 130);
+        line-height: 1.2;
+        font-family: "Aclonica", sans-serif;
+      }
+
+      p {
+        // margin-top: 10px;
+        font-size: 18px;
+        width: 320px;
+      }
+    }
+  }
+}
+
+.form {
+  margin-left: 22px;
+  // border-radius: 0.5rem;
+  // background: #ffffff;
+  // color: black;
+  // box-shadow: 28px 28px 56px #d9d9d9, -28px -28px 56px #ffffff;
+}
+
+fieldset {
+  border: none;
+}
+
+legend {
+  font-size: 0;
+}
+
+.input {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1rem;
+  border-bottom: 1.5px solid black;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  text-align: center;
+  margin-right: 8px;
+  // border: none;
+  // color: rgb(240, 0, 0);
+  // border-radius: 0.5rem;
+  // background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  // box-shadow: 28px 28px 56px #d9d9d9, -28px -28px 56px #ffffff;
+}
+
+input:focus {
+  outline: none;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.prev_next {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+a {
+  text-decoration: none;
+  color: rgb(116, 116, 116);
+  font-size: 18px;
+}
+
+@media only screen and (max-width: 1157px) {
+  .right {
+    display: none;
+  }
+}
+
+// @media only screen and (min-width: 600px) {
+//   form {
+//     padding: 4rem 3rem;
+//   }
+
+//   input {
+//     width: 4rem;
+//     height: 4rem;
+//     font-size: 3rem;
+//   }
+
+//   input + input {
+//     margin-left: 1rem;
+//   }
+// }

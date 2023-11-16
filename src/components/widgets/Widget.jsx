@@ -6,106 +6,51 @@ import {
   ShoppingCartOutlined,
 } from "@mui/icons-material";
 import "./widget.scss";
+import bitcoin from "./../../imgs/bitcoin.png";
+import et from "./../../imgs/et.png";
+import binance from "./../../imgs/bnb.png";
+import cardano from "./../../imgs/cardano.png";
 import React, { useState, useEffect } from "react";
 
 function Widget({ type }) {
   //
-  const [users, setUsers] = useState([]);
-  useEffect(() => {
-    fetch("https://itrendsanalytics.herokuapp.com/users/all-users")
-      .then((response) => response.json())
-      .then((data) => {
-        let uCount = data.length;
-        console.log(uCount);
-        setUsers(uCount);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-
-  const [posts, setPosts] = useState([]);
-  useEffect(() => {
-    fetch("https://itrendsanalytics.herokuapp.com/posts/all-posts")
-      .then((response) => response.json())
-      .then((data) => {
-        let uCount = data.length;
-        console.log(uCount);
-        setPosts(uCount);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
 
   let data;
   switch (type) {
-    case "user":
+    case "BITCOIN":
       data = {
-        title: "USERS",
-        isMoney: false,
-        amount: users,
-        link: "See all users",
-        icon: (
-          <PersonOutline
-            className="icon"
-            style={{
-              color: "crimson",
-              backgroundColor: "rgba(255, 0, 0, 0.2)",
-            }}
-          />
-        ),
-      };
-      break;
-    case "posts":
-      data = {
-        title: "POSTS",
-        isMoney: false,
-        amount: posts,
-        link: "View all posts",
-        icon: (
-          <ShoppingCartOutlined
-            className="icon"
-            style={{
-              backgroundColor: "rgba(218,165,32,0.2)",
-              color: "goldenrod",
-            }}
-          />
-        ),
-      };
-      break;
-    case "earning":
-      data = {
-        title: "EARNING",
+        title: "BITCOIN",
         isMoney: true,
-        amount: 74838,
-        link: "View Net Earnings",
-        icon: (
-          <MonetizationOnOutlined
-            className="icon"
-            style={{
-              backgroundColor: "rgba(0, 128, 0, 0.2)",
-              color: "green",
-            }}
-          />
-        ),
+        amount: 40000,
+        link: "See all users",
+        icon: bitcoin,
       };
       break;
-    case "balance":
+    case "ETHEREUM":
       data = {
-        title: "BALANCE",
+        title: "ETHEREUM",
+        isMoney: true,
+        amount: 28000,
+        link: "View all posts",
+        icon: et,
+      };
+      break;
+    case "BNB":
+      data = {
+        title: "BNB",
+        isMoney: true,
+        amount: 34000,
+        link: "View Net Earnings",
+        icon: binance,
+      };
+      break;
+    case "CARDANO":
+      data = {
+        title: "CARDANO",
         isMoney: true,
         link: "See details",
-        amount: 74838,
-        icon: (
-          <AccountBalanceWalletOutlined
-            className="icon"
-            style={{
-              backgroundColor: "rgba(128, 0, 128, 0.2)",
-              color: " purple",
-            }}
-          />
-        ),
+        amount: 56000,
+        icon: cardano,
       };
       break;
     default:
@@ -126,7 +71,7 @@ function Widget({ type }) {
           <KeyboardArrowUp />
           20%
         </div>
-        {data.icon}
+        <img src={data.icon} alt="" srcset="" width={25} />
       </div>
     </div>
   );

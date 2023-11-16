@@ -78,7 +78,7 @@ function Datatable() {
   const [data, setData] = useState([]);
   useEffect(() => {
     axios
-      .get("https://itrendsanalytics.herokuapp.com/users/all-users")
+      .get("https://intrendsanalytics.herokuapp.com/users/all-users")
       .then((res) => setData(res.data))
       .catch((err) => console.log(err, "it has an error"));
   });
