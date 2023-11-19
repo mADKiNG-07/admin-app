@@ -21,17 +21,14 @@ function Verify() {
   const text2 = "Front";
   const text3 = "Back";
 
-  const handleFileUpload = (file) => {
-    // Do something with the file, e.g., send it to a server or store it in state.
-    console.log("Selected file:", file);
-    console.log(email);
-    return file;
-  };
-
   const selfieFileUpload = (selfie) => {
     // Do something with the file, e.g., send it to a server or store it in state.
     console.log("Selected file:", selfie);
     return selfie;
+  };
+
+  const clicked = (data) => {
+    console.log("wokrd:", data);
   };
 
   const identityFileUpload = (identity) => {
@@ -46,15 +43,29 @@ function Verify() {
     return identity_back;
   };
 
+  const handleSSNSubmit = (values) => {
+    const selfie = selfieFileUpload();
+    const front_card = identityFileUpload();
+    const back_card = identity_backFileUpload();
+
+    console.log("SSN: ", values);
+    console.log("selfie: ", selfie);
+    console.log("front-card: ", front_card);
+    console.log("back-card: ", back_card);
+    return values;
+  };
+
   const firebaseUpload = () => {
     // Create a root reference
     const storage = getStorage();
-    const file = handleFileUpload();
-    const imagesRef = ref(storage, `${email}/wertyu`);
+    // const file = handleFileUpload();
+    // const ssn_values = handle_ssn_upload();
+    // console.log(ssn_values);
+    // const imagesRef = ref(storage, `${email}/wertyu`);
 
-    uploadBytes(imagesRef, file).then((snapshot) => {
-      console.log("Uploaded a blob or file!");
-    });
+    // uploadBytes(imagesRef, file).then((snapshot) => {
+    //   console.log("Uploaded a blob or file!");
+    // });
   };
 
   return (
@@ -82,7 +93,7 @@ function Verify() {
                 <p className="lead">1. Take a Selfie</p>
                 <div className="selfie">
                   <FilesDragAndDrop
-                    onFileChange={handleFileUpload}
+                    onFileChange={selfieFileUpload}
                     icon={uploadSelfie}
                     text={text}
                   />
@@ -98,7 +109,7 @@ function Verify() {
                 <p className="lead">2. Upload a picture of identity</p>
                 <div className="selfie">
                   <FilesDragAndDrop
-                    onFileChange={handleFileUpload}
+                    onFileChange={identityFileUpload}
                     icon={front}
                     text={text2}
                   />
@@ -114,9 +125,10 @@ function Verify() {
                 <p className="lead">3. Upload a picture of identity (Back)</p>
                 <div className="selfie">
                   <FilesDragAndDrop
-                    onFileChange={handleFileUpload}
+                    onFileChange={identity_backFileUpload}
                     icon={back}
                     text={text3}
+                    submitData={clicked}
                   />
                 </div>
               </TimelineContent>
@@ -129,16 +141,21 @@ function Verify() {
               <TimelineContent sx={{ px: "22px" }}>
                 <p className="lead">4. State Security Number</p>
                 <div className="selfie">
-                  <Ssn />
+                  {/* <Ssn onSSNSubmit={handle_ssn_upload} /> */}
+                  <Ssn
+                    onDataReady={(getSSNData) => (
+                      <div>
+                        <button
+                          className="btn btn-primary my-5 mx-3"
+                          onClick={() => handleSSNSubmit(getSSNData())}
+                        >
+                          Complete Registration
+                        </button>
+                      </div>
+                    )}
+                  />
                 </div>
-                <div>
-                  <button
-                    className="btn btn-primary my-5 mx-3"
-                    onClick={firebaseUpload()}
-                  >
-                    Complete Registration
-                  </button>
-                </div>
+                <div></div>
               </TimelineContent>
             </TimelineItem>
           </Timeline>

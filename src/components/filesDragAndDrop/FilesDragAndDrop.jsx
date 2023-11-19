@@ -16,10 +16,12 @@ const FilesDragAndDrop = (props) => {
 
   const onDrop = () => wrapperRef.current.classList.remove("dragover");
 
+  var data = [];
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
     if (newFile) {
       const updatedList = [...fileList, newFile];
+      data = updatedList;
       setFileList(updatedList);
       props.onFileChange(updatedList);
       // onFileChange(newFile);
@@ -31,6 +33,7 @@ const FilesDragAndDrop = (props) => {
     updatedList.splice(fileList.indexOf(file), 1);
     setFileList(updatedList);
     props.onFileChange(updatedList);
+    props.submitData(updatedList);
   };
 
   return (
@@ -80,6 +83,7 @@ const FilesDragAndDrop = (props) => {
 
 FilesDragAndDrop.propTypes = {
   onFileChange: PropTypes.func,
+  submitData: PropTypes.func,
 };
 
 export default FilesDragAndDrop;

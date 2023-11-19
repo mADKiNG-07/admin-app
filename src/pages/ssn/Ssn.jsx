@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-function SSN() {
+function SSN({ onDataReady }) {
   const [values, setValues] = useState({
     "number-code-0": "",
     "number-code-1": "",
@@ -23,10 +23,14 @@ function SSN() {
     }));
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Do something with the values, for example, send them to the server
-    console.log(values);
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   // Do something with the values, for example, send them to the server
+  //   console.log(values);
+  // };
+
+  const getSSNData = () => {
+    return Object.values(values).join("");
   };
 
   useEffect(() => {
@@ -204,15 +208,12 @@ function SSN() {
               />
             </fieldset>
           </form>
-          <button onClick={handleSubmit}>submit</button>
+          {onDataReady && onDataReady(getSSNData)}
+          {/* <button onClick={handleSubmit}>submit</button> */}
         </div>
       </div>
     </div>
   );
 }
-
-SSN.propTypes = {
-  onFileChange: PropTypes.func,
-};
 
 export default SSN;
