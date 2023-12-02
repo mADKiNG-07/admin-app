@@ -1,4 +1,4 @@
-.transactions {
+.portfolioitem {
   width: 80%;
   // height: 80px;
   border-radius: 13px;
@@ -8,55 +8,40 @@
   box-shadow: -3px 0px 31px -13px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
   background: rgb(33, 33, 33);
+  display: flex;
+  color: white;
+  justify-content: space-between;
+  align-items: center;
 
-  .daime {
-    margin-top: -13px;
-  }
-
-  .typr {
-    margin-top: 10px;
-  }
-
-  .typr,
-  .daime {
+  .port_buttons {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .buy {
-      font-weight: 700;
-    }
-
-    .white {
-      color: white;
-    }
-
-    .green {
-      color: green;
-    }
 
     .red {
-      color: red !important;
-    }
-
-    .date {
-      color: grey;
-      font-size: 13px;
-    }
-
-    .amount {
-      font-size: 13px;
-      color: rgb(67, 189, 10);
-      font-weight: 600;
+      margin-left: 10px;
     }
   }
 }
 
+.withdraw {
+  color: black;
+}
+
+.with {
+  color: black;
+  font-weight: 600;
+}
+
+.btn-flex {
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
+}
+
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
-  .transactions {
+  .portfolioitem {
+    display: block;
     width: 100%;
-    // width: 100% !important;
     // height: 100%;
   }
 }

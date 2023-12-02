@@ -13,6 +13,7 @@ function SSN({ onDataReady }) {
     "number-code-5": "",
     "number-code-6": "",
     "number-code-7": "",
+    "number-code-8": "",
   });
 
   const handleChange = (event) => {
@@ -157,7 +158,7 @@ function SSN({ onDataReady }) {
                 required
               />
               <input
-                className="input"
+                className="input space"
                 type="number"
                 min="0"
                 max="9"
@@ -177,7 +178,7 @@ function SSN({ onDataReady }) {
                 required
               />
               <input
-                className="input"
+                className="input space"
                 type="number"
                 min="0"
                 max="9"
@@ -204,6 +205,16 @@ function SSN({ onDataReady }) {
                 onChange={handleChange}
                 name="number-code-7"
                 data-number-code-input="7"
+                required
+              />
+              <input
+                className="input"
+                type="number"
+                min="0"
+                max="9"
+                onChange={handleChange}
+                name="number-code-8"
+                data-number-code-input="8"
                 required
               />
             </fieldset>

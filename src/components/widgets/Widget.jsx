@@ -11,9 +11,52 @@ import et from "./../../imgs/et.png";
 import binance from "./../../imgs/bnb.png";
 import cardano from "./../../imgs/cardano.png";
 import React, { useState, useEffect } from "react";
+import { getFirestore } from "firebase/firestore";
+import { app } from "./../../config/firebase.js";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { collection, query, where, doc, getDoc } from "firebase/firestore";
 
 function Widget({ type }) {
   //
+  const db = getFirestore(app);
+
+  const [documentData, setDocumentData] = useState([]);
+  const [userEmail, setUserEmail] = useState("");
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      const email = user.email;
+      setUserEmail(email);
+      fetchData(email); // Call fetchData with the user's email
+    } else {
+      // User is signed out
+      // console.log("User is signed out");
+      // Handle any necessary logic for signed-out state
+    }
+  });
+
+  const fetchData = async (email) => {
+    try {
+      const docRef = doc(db, email, "portfolio");
+      const docSnapshot = await getDoc(docRef);
+
+      if (docSnapshot.exists) {
+        setDocumentData(docSnapshot.data());
+        // console.log("Data found");
+      } else {
+        // console.log("Document not found!");
+      }
+    } catch (error) {
+      // console.error("Error fetching document:", error);
+    }
+  };
+
+  const bitcoinPrice = 37733.1;
+  const ethPrice = 2084.19;
+  const bnbPrice = 234.47;
+  const adaPrice = 0.392339;
 
   let data;
   switch (type) {
@@ -21,7 +64,7 @@ function Widget({ type }) {
       data = {
         title: "BITCOIN",
         isMoney: true,
-        amount: 40000,
+        amount: (documentData.bitcoin / bitcoinPrice).toFixed(8),
         link: "See all users",
         icon: bitcoin,
       };
@@ -30,7 +73,7 @@ function Widget({ type }) {
       data = {
         title: "ETHEREUM",
         isMoney: true,
-        amount: 28000,
+        amount: (documentData.eth / ethPrice).toFixed(8),
         link: "View all posts",
         icon: et,
       };
@@ -39,7 +82,7 @@ function Widget({ type }) {
       data = {
         title: "BNB",
         isMoney: true,
-        amount: 34000,
+        amount: (documentData.bnb / bnbPrice).toFixed(8),
         link: "View Net Earnings",
         icon: binance,
       };
@@ -49,7 +92,7 @@ function Widget({ type }) {
         title: "CARDANO",
         isMoney: true,
         link: "See details",
-        amount: 56000,
+        amount: (documentData.ado / adaPrice).toFixed(8),
         icon: cardano,
       };
       break;
@@ -61,9 +104,7 @@ function Widget({ type }) {
     <div className="widget">
       <div className="left">
         <span className="title">{data.title}</span>
-        <span className="counter">
-          {data.isMoney && "$"} {data.amount}
-        </span>
+        <span className="counter">{data.amount}</span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">

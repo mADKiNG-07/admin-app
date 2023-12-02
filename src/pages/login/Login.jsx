@@ -2,136 +2,130 @@
 import "./login.scss";
 import axios from "axios";
 import React, { useState, useEffect, useContext, useRef } from "react";
-import AuthContext from "./../../context/AuthProvider";
-import Home from "../home/Home";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, orderBy } from "firebase/firestore";
+import { NavLink, useNavigate } from "react-router-dom";
 
 function Login() {
-  const { setAuth } = useContext(AuthContext);
-
+  // states for the form
+  const [firstname, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState("");
-
-  const userRef = useRef();
-  const errRef = useRef();
-
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
-
-  useEffect(() => {
-    setErrMsg("");
-  }, [email, password]);
+  const [country, setCountry] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [dOB, setDOB] = useState("");
 
   let handleSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post(
-        "https://intrendsanalytics.herokuapp.com/auth",
-        JSON.stringify({
-          email: email,
-          password: password,
-        }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      )
-      .then((result) => {
-        console.log(result?.data);
-        const accessToken = result?.data?.accessToken;
-        const roles = result?.data?.roles;
-        setAuth({ email, password, roles, accessToken });
-        setSuccess(true);
+    // axios
+    //   .post("https://intrendsanalytics.herokuapp.com/users/add-user", {
+    //     fName: firstname,
+    //     lName: lastName,
+    //     dob: dOB,
+    //     email: email,
+    //     password: password,
+    //     country: country,
+    //     phoneNumber: mobileNumber,
+    //   })
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //     console.error(err.response.data);
+    //     alert(err.response.data);
+    //   });
+  };
+  const navigate = useNavigate();
+
+  const Login = () => {
+    const auth = getAuth();
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        navigate("/home");
+        // console.log("login successful");
+        // ...
       })
-      .catch((err) => {
-        console.log(err);
-        console.error(err.response.data);
-        alert(err.response.data);
-        if (!err?.response) {
-          setErrMsg("No Server Response");
-        } else if (err.response?.status === 400) {
-          setErrMsg("Incorrect Username or Password");
-        } else if (err.response?.status === 401) {
-          setErrMsg("Unauthorized");
-        } else {
-          setErrMsg("Login Failed");
-        }
-        errRef.current.focus();
+      .catch((error) => {
+        const errorCode = error.code;
+        console.log("login unsuccessful");
+        const errorMessage = error.message;
       });
   };
-
   return (
-    <>
-      {success ? (
-        <Home />
-      ) : (
-        <div className="Login local-bootstrap">
-          <div className="loginContainer">
-            <p
-              ref={errRef}
-              className={errMsg ? "errmsg" : "offscreen"}
-              aria-live="assertive"
-            >
-              {errMsg}
+    <div className="login">
+      <div className="left">
+        <div className="contain">
+          <div className="txtHeader">
+            <h2>Login</h2>
+            <p className="lead">
+              Take advantage of proven solutions to achieve cryptocoin success
             </p>
-            <h6>Login to Restructure</h6>
-            <p>
-              Enter your email address and the default password sent to your
-              email address
-            </p>
+          </div>
 
-            <div className="formContainer">
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <div className="input-group flex-nowrap">
-                    <span className="input-group-text" id="addon-wrapping">
-                      <i className="fa fa-envelope-o"></i>
-                    </span>
-                    <input
-                      type="text"
-                      id="email"
-                      ref={userRef}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="form-control"
-                      placeholder="Email"
-                      aria-label="Username"
-                      aria-describedby="addon-wrapping"
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="mb-3">
-                  <div className="input-group flex-nowrap">
-                    <span className="input-group-text" id="addon-wrapping">
-                      <i className="fa fa-lock" aria-hidden="true"></i>
-                    </span>
-                    <input
-                      type="password"
-                      id="password"
-                      className="form-control"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Password"
-                      aria-label="Username"
-                      aria-describedby="addon-wrapping"
-                    />
-                  </div>
-                </div>
-                <button type="submit" className="btn btn-primary col-auto">
-                  Continue
-                </button>
-              </form>
+          <div className="formContainer">
+            <div className="form-group">
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="form-group mt-3">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="bonttom d-grid gap-2 mt-2">
+              {/* <NavLink className="d-grid gap-2 nnavlink" to="#"> */}
+              <button
+                type="submit"
+                className="btn btn-secondary mt-3"
+                onClick={Login}
+              >
+                Login
+              </button>
+              {/* </NavLink> */}
+
+              <div className="login">
+                <p>
+                  Dont have an account?{" "}
+                  <span className="linkk">
+                    <NavLink to="/signup" className="nvlink">
+                      Sign Up
+                    </NavLink>
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      )}
-    </>
+      </div>
+
+      <div className="right"></div>
+    </div>
   );
 }
 

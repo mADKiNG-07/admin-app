@@ -2,16 +2,20 @@
   flex: 1.5;
   border-right: 0.5px solid rgb(235, 235, 235);
   min-height: 100vh;
-  background-color: white;
+  background-color: black;
+  border-right: 1.5px solid rgb(33, 33, 33);
+  // position: fixed;
 
   .top {
-    height: 80px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
     // margin-left: 25px;
-    margin-top: 25px;
+    // margin-top: 25px;
     margin-bottom: 25px;
+    color: white;
+    border-bottom: 1.5px solid rgb(33, 33, 33);
 
     .username {
       font-size: 18px;
@@ -24,15 +28,26 @@
       // margin-left: 10px;
       line-height: 20px;
       display: flex;
-      justify-content: center;
+      justify-content: space-evenly;
       align-items: center;
 
       .avatar {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         margin-right: 10px;
         border-radius: 50%;
-        background-color: #797979;
+        // background-color: #797979;
+        overflow: hidden;
+
+        .img {
+          /* Ensure the image takes up the entire space of the avatar div */
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: cover;
+        }
       }
     }
 
@@ -40,30 +55,31 @@
       font-size: 13px;
       padding: 0px;
       font-weight: 400;
+      color: rgb(130, 130, 130);
     }
 
     .generate {
       border: none;
-      padding: 6px 20px;
+      padding: 7px 20px;
       border-radius: 6px;
       margin-top: 13px;
       font-size: 13px;
       font-weight: normal;
       display: flex;
       align-items: center;
-      color: white;
-      background-color: #999;
-
+      justify-content: center;
+      color: rgb(0, 0, 0);
+      background-color: rgb(225, 161, 0);
       .icon2 {
         font-size: 18px;
         margin-right: 5px;
-        color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
       }
     }
   }
 
-  hr {
-    border: 0.5px solid rgb(235, 235, 235);
+  .line-top {
+    border: 0.01px solid rgb(235, 235, 235);
     height: 0;
   }
 
@@ -78,7 +94,7 @@
       .title {
         font-size: 10px;
         font-weight: bold;
-        color: #999;
+        color: rgb(225, 161, 0);
         margin-top: 15px;
         margin-bottom: 5px;
       }
@@ -95,7 +111,7 @@
 
         .icon {
           font-size: 18px;
-          color: rgb(225, 161, 0);
+          color: rgb(130, 130, 130);
         }
 
         .red {
@@ -103,7 +119,7 @@
         }
 
         span {
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 500;
           color: #797979;
           margin-left: 10px;
@@ -144,4 +160,27 @@
       margin-left: 10px;
     }
   }
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

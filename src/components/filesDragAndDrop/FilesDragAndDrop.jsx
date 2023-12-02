@@ -19,21 +19,33 @@ const FilesDragAndDrop = (props) => {
   var data = [];
   const onFileDrop = (e) => {
     const newFile = e.target.files[0];
+    // if (newFile) {
+    //   const updatedList = [...fileList, newFile];
+    //   data = updatedList;
+    //   setFileList(updatedList);
+    //   props.onFileChange(updatedList);
+    //   // onFileChange(newFile);
+    // }
     if (newFile) {
-      const updatedList = [...fileList, newFile];
-      data = updatedList;
-      setFileList(updatedList);
-      props.onFileChange(updatedList);
-      // onFileChange(newFile);
+      setFileList([newFile]); // Set fileList as an array with the new file
+      props.onFileChange(newFile); // Notify the parent component about the new file
     }
   };
 
-  const fileRemove = (file) => {
-    const updatedList = [...fileList];
-    updatedList.splice(fileList.indexOf(file), 1);
-    setFileList(updatedList);
-    props.onFileChange(updatedList);
-    props.submitData(updatedList);
+  // const fileRemove = (file) => {
+  //   const updatedList = [...fileList];
+  //   updatedList.splice(fileList.indexOf(file), 1);
+  //   setFileList(updatedList);
+  //   props.onFileChange(updatedList);
+  //   props.submitData(updatedList);
+  // };
+
+  const fileRemove = () => {
+    if (fileList.length === 1) {
+      setFileList([]); // Set fileList to an empty array since there is no file
+      props.onFileChange(null); // Notify the parent component that there is no file
+      props.submitData(null); // Submit data with no file
+    }
   };
 
   return (

@@ -10,11 +10,17 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import front from "../../assets/front.png";
+import { app } from "./../../config/firebase.js";
 import back from "../../assets/back.png";
 import { useParams } from "react-router-dom";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getAuth,
+  updateProfile,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
-function Verify() {
+function Verify(props) {
   const { email } = useParams();
 
   const text = "Drag & Drop your Selfie here";
@@ -24,48 +30,86 @@ function Verify() {
   const selfieFileUpload = (selfie) => {
     // Do something with the file, e.g., send it to a server or store it in state.
     console.log("Selected file:", selfie);
-    return selfie;
-  };
+    // const blob = new Blob([selfie], { type: "image/jpg" });
 
-  const clicked = (data) => {
-    console.log("wokrd:", data);
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `${email}/selfie`);
+
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
+    // Create a reference to the file in Firebase Storage
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, selfie, metadata)
+      .then((snapshot) => {
+        console.log("Uploaded a blob or file!");
+      })
+      // You can now use the 'downloadURL' for further processing or to store it in your database
+
+      .catch((error) => {
+        // Handle errors during the upload or URL retrieval
+        // console.error("Error uploading file or getting download URL:", error);
+      });
   };
 
   const identityFileUpload = (identity) => {
     // Do something with the file, e.g., send it to a server or store it in state.
     console.log("Selected file:", identity);
-    return identity;
+    // const blob = new Blob([selfie], { type: "image/jpg" });
+
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `${email}/identiy_${identity.name}`);
+
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
+    // Create a reference to the file in Firebase Storage
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, identity, metadata).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
   };
 
   const identity_backFileUpload = (identity_back) => {
     // Do something with the file, e.g., send it to a server or store it in state.
     console.log("Selected file:", identity_back);
-    return identity_back;
+    // const blob = new Blob([selfie], { type: "image/jpg" });
+
+    const storage = getStorage(app);
+    const storageRef = ref(
+      storage,
+      `${email}/identity_back_${identity_back.name}`
+    );
+
+    const metadata = {
+      contentType: "image/jpeg",
+    };
+
+    // Create a reference to the file in Firebase Storage
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, identity_back, metadata).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
   };
 
   const handleSSNSubmit = (values) => {
-    const selfie = selfieFileUpload();
-    const front_card = identityFileUpload();
-    const back_card = identity_backFileUpload();
-
     console.log("SSN: ", values);
-    console.log("selfie: ", selfie);
-    console.log("front-card: ", front_card);
-    console.log("back-card: ", back_card);
-    return values;
-  };
 
-  const firebaseUpload = () => {
-    // Create a root reference
-    const storage = getStorage();
-    // const file = handleFileUpload();
-    // const ssn_values = handle_ssn_upload();
-    // console.log(ssn_values);
-    // const imagesRef = ref(storage, `${email}/wertyu`);
+    const storage = getStorage(app);
+    const storageRef = ref(storage, `${email}/ssn_${values}`);
 
-    // uploadBytes(imagesRef, file).then((snapshot) => {
-    //   console.log("Uploaded a blob or file!");
-    // });
+    const metadata = {
+      contentType: "text/plain",
+    };
+
+    const blob = new Blob([values], { type: "text/plain" });
+    // Create a reference to the file in Firebase Storage
+    // 'file' comes from the Blob or File API
+    uploadBytes(storageRef, blob, metadata).then((snapshot) => {
+      console.log("Uploaded a blob or file!");
+    });
   };
 
   return (
@@ -128,7 +172,6 @@ function Verify() {
                     onFileChange={identity_backFileUpload}
                     icon={back}
                     text={text3}
-                    submitData={clicked}
                   />
                 </div>
               </TimelineContent>

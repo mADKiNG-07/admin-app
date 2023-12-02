@@ -13,6 +13,11 @@ import Verify from "./pages/verify/Verify";
 import Identity from "./pages/identity/Identity";
 import IdentityBack from "./pages/identity_back/IdentityBack";
 import SSN from "./pages/ssn/Ssn";
+import Selfie from "./pages/selfie/Selfie";
+import SsnUpload from "./pages/SsnUpload/SsnUpload";
+import ChartComponent from "./components/ChartComponent";
+import TradingView from "./components/tradingview/TradingView";
+import Portfolio from "./pages/portfolio/Portfolio";
 
 
 function App() {
@@ -26,11 +31,13 @@ function App() {
 
             <Route path="login" element={<Login />} />
 
-            <Route path="users">
+
+
+            {/* <Route path="users">
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />
               <Route path="new" element={<New />} />
-            </Route>
+            </Route> */}
 
             <Route path="post">
               <Route index element={<Post />} />
@@ -49,15 +56,31 @@ function App() {
 
             {/* <Route path="verify/:email" element={<Verify />} /> */}
 
-            <Route path="verify">
-              <Route path=":email" element={<Verify />} />
+            <Route path="selfie">
+              <Route path=":email" element={<Selfie />} />
             </Route>
 
-            <Route path="identity" element={<Identity />} />
+            <Route path="identity">
+              <Route path=":email" element={<Identity />} />
+            </Route>
 
-            <Route path="identity_back" element={<IdentityBack />} />
+            <Route path="identity_back">
+              <Route path=":email" element={<IdentityBack />} />
+            </Route>
 
-            <Route path="ssn" element={<SSN />} />
+            <Route path="ssnupload">
+              <Route path=":email" element={<SsnUpload />} />
+            </Route>
+
+            {/* <Route path="identity" element={<Identity />} /> */}
+
+            <Route path="portfolio">
+              <Route path=":email" element={<Portfolio />} />
+            </Route>
+
+            <Route path="transactions" >
+              <Route path=":email" element={<List />} />
+            </Route>
 
           </Route>
         </Routes>

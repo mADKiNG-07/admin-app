@@ -4,8 +4,14 @@ import axios from "axios";
 import FilesDragAndDrop from "./../../components/filesDragAndDrop/FilesDragAndDrop";
 import { NavLink } from "react-router-dom";
 import app from "./../../config/firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs, orderBy } from "firebase/firestore";
 
 function SignUp() {
   // states for the form
@@ -13,35 +19,30 @@ function SignUp() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [country, setCountry] = useState("");
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [dOB, setDOB] = useState("");
+  const [agreed, setAgreed] = useState(false);
 
   let handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(
-      firstname +
-        " " +
-        lastName +
-        " " +
-        email +
-        " " +
-        country +
-        " " +
-        mobileNumber +
-        " " +
-        dOB
-    );
+    // console.log(
+    //   firstname +
+    //     " " +
+    //     lastName +
+    //     " " +
+    //     email +
+    //     " " +
+    //     country +
+    //     " " +
+    //     mobileNumber +
+    //     " " +
+    //     dOB
+    // );
     axios
       .post("https://intrendsanalytics.herokuapp.com/users/add-user", {
         fName: firstname,
         lName: lastName,
-        dob: dOB,
         email: email,
         password: password,
-        country: country,
-        phoneNumber: mobileNumber,
       })
       .then((result) => {
         console.log(result);
@@ -57,37 +58,103 @@ function SignUp() {
     console.log(files);
   };
 
+  const isEmailValid = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const isPasswordValid = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return regex.test(password);
+  };
+
+  const isAgreementChecked = (agreed) => {
+    return agreed;
+  };
+
+  const isFormValid = () => {
+    return (
+      firstname.trim() !== "" &&
+      lastName.trim() !== "" &&
+      isEmailValid(email) &&
+      isPasswordValid(password) &&
+      isAgreementChecked(agreed)
+    );
+  };
+
   const signup = () => {
-    const auth = getAuth();
-    const storage = getStorage();
+    if (isFormValid()) {
+      // console.log('Form submitted successfully');
+      // Add your signup logic here if needed
+      const auth = getAuth();
+      const storage = getStorage();
+      const db = getFirestore();
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        const storageRef = ref(storage, `${email}/.default/`); // Make sure to include a trailing slash
-
-        // Create an empty file with a known name (e.g., ".keep") to simulate a folder
-        const dummyFileRef = storageRef;
-
-        // Put an empty Blob as the content of the dummy file
-        uploadBytes(dummyFileRef, new Blob([]))
-          .then(() => {
-            // Folder "new" created
-            // ...
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          updateProfile(user, {
+            displayName: firstname + " " + lastName,
           })
-          .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // Handle the error
-          });
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
+            .then(() => {
+              // Profile updated successfully
+              console.log("User created with additional details:", user);
+            })
+            .catch((error) => {
+              // An error occurred while updating the user profile
+              console.error("Error updating user profile:", error);
+            });
+          const storageRef = ref(storage, `${email}/.default/`); // Make sure to include a trailing slash
+          const userRef = doc(db, email, "portfolio");
+          const userRef2 = doc(db, `${email}-portfolio`, "BITCOIN");
+          const userRef3 = doc(db, `${email}-transaction`, "01");
+
+          setDoc(
+            userRef,
+            { ado: "0", bitcoin: "0", bnb: "0", eth: "0" },
+            { merge: true }
+          );
+
+          setDoc(userRef2, { amount: "0", coin: "Bitcoin" }, { merge: true });
+
+          setDoc(
+            userRef3,
+            {
+              amount: "0",
+              date: "0",
+              price: "0",
+              time: "0",
+              timest: "0",
+              type: "0",
+            },
+            { merge: true }
+          );
+          // Create an empty file with a known name (e.g., ".keep") to simulate a folder
+          const dummyFileRef = storageRef;
+
+          // Put an empty Blob as the content of the dummy file
+          uploadBytes(dummyFileRef, new Blob([]))
+            .then(() => {
+              // Folder "new" created
+              // ...
+            })
+            .catch((error) => {
+              const errorCode = error.code;
+              const errorMessage = error.message;
+              // Handle the error
+            });
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // ..
+        });
+    } else {
+      console.log("Form is not valid. Please check your inputs.");
+      // You can also provide user feedback here, e.g., show error messages
+    }
   };
 
   return (
@@ -104,7 +171,7 @@ function SignUp() {
           <div className="formContainer">
             <form onSubmit={handleSubmit}>
               <div className="row">
-                <div className="col">
+                <div className="col edit">
                   <input
                     type="text"
                     className="form-control"
@@ -125,7 +192,7 @@ function SignUp() {
                   />
                 </div>
               </div>
-              <div className="form-group mt-3">
+              <div className="form-group edit mt-3">
                 <input
                   type="email"
                   className="form-control"
@@ -136,7 +203,7 @@ function SignUp() {
                 />
               </div>
 
-              <div className="form-group mt-3">
+              <div className="form-group edit mt-3">
                 <input
                   type="password"
                   className="form-control"
@@ -153,6 +220,8 @@ function SignUp() {
                   type="checkbox"
                   value=""
                   id="flexCheckDefault"
+                  checked={agreed}
+                  onChange={() => setAgreed(!agreed)}
                   required
                 />
                 <label className="form-check-label smalltext">
@@ -161,79 +230,38 @@ function SignUp() {
               </div>
 
               <div className="bonttom d-grid gap-2 mt-2">
-                <NavLink
-                  className="d-grid gap-2 nnavlink"
-                  to={`/verify/${email}`}
-                >
+                {isFormValid() ? ( // Render NavLink only if the form is valid
+                  <NavLink
+                    className="d-grid gap-2 nnavlink"
+                    to={`/selfie/${email}`}
+                  >
+                    <button
+                      type="submit"
+                      className="btn btn-secondary mt-3"
+                      disabled={!isFormValid()}
+                    >
+                      Next
+                    </button>
+                  </NavLink>
+                ) : (
                   <button
                     type="submit"
                     className="btn btn-secondary mt-3"
-                    onClick={signup()}
+                    disabled={!isFormValid()}
                   >
                     Next
                   </button>
-                </NavLink>
+                )}
 
                 <div className="login">
                   <p>
                     Already have an account?{" "}
                     <span className="linkk">
-                      <NavLink to="#" className="nvlink">
+                      <NavLink to="/login" className="nvlink">
                         Login
                       </NavLink>
                     </span>
                   </p>
-                </div>
-
-                {/* Modal */}
-                <div
-                  class="modal fade"
-                  id="exampleModalToggle"
-                  // data-bs-backdrop="static"
-                  // data-bs-keyboard="false"
-                  tabindex="-1"
-                  aria-labelledby="exampleModalToggleLabel"
-                  aria-hidden="true"
-                >
-                  <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1
-                          class="modal-title fs-5"
-                          id="exampleModalToggleLabel"
-                        >
-                          Verify Account
-                        </h1>
-                        <button
-                          type="button"
-                          class="btn-close"
-                          data-bs-dismiss="modal"
-                          aria-label="Close"
-                        ></button>
-                      </div>
-                      <div class="modal-body box">
-                        <FilesDragAndDrop onUpload={onUpload} />
-                      </div>
-                      <div class="modal-footer">
-                        <button
-                          type="button"
-                          class="btn btn-secondary"
-                          data-bs-dismiss="modal"
-                        >
-                          Close
-                        </button>
-                        <button
-                          type="button"
-                          class="btn btn-primary"
-                          data-bs-target="#exampleModalToggle2"
-                          data-bs-toggle="modal"
-                          data-bs-dismiss="modal"
-                        >
-                          Understood
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </form>

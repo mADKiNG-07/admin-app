@@ -3,20 +3,15 @@ import {
   Dashboard,
   PersonOutline,
   CandlestickChart,
-  LocalShipping,
-  Assessment,
-  NotificationsNone,
-  SettingsSystemDaydream,
-  Psychology,
-  Settings,
-  AccountCircle,
   Logout,
   Article,
   PostAdd,
   IosShareRounded,
 } from "@mui/icons-material";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { NavLink } from "react-router-dom";
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 function Sidebar() {
   // const [buttonText, setButtonText] = useState("Copy");
@@ -39,14 +34,64 @@ function Sidebar() {
     }
   };
 
+  const [userEmail, setUserEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [profilePic, setProfilePic] = useState("");
+
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in
+      const email = user.email;
+      const firstname = user.displayName;
+      setUserEmail(email);
+      setFirstName(firstname);
+    } else {
+      // User is signed out
+      // console.log("User is signed out");
+      // Handle any necessary logic for signed-out state
+    }
+  });
+
+  const logout = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        console.log("User logged out successfully");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
+
+  const storage = getStorage();
+
+  // Specify the path to the file in your storage bucket
+  const filePath = `${userEmail}/selfie`;
+  const fileRef = ref(storage, filePath);
+
+  // Get the download URL of the file
+
+  getDownloadURL(fileRef)
+    .then((url) => {
+      // Use the URL to access the file or download it
+      console.log("File URL:", url);
+      setProfilePic(url);
+    })
+    .catch((error) => {
+      console.error("Error getting download URL:", error);
+    });
+
   return (
     <div className="sidebar">
       <div className="top">
         <div className="details">
-          <div className="avatar"></div>
+          <div className="avatar">
+            <img className=".img" src={profilePic} alt="" width={100} />
+          </div>
           <p className="username">
-            Patrick Sommer <br />
-            <span className="email">patricksommer@gmail.com</span>
+            {firstName} <br />
+            <span className="email">{userEmail}</span>
             <br />
             <button
               className="generate"
@@ -94,41 +139,42 @@ function Sidebar() {
           </p>
         </div>
       </div>
-      <hr />
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
           <li>
-            <Dashboard className="icon" />
-            <span>Dashboard</span>
+            <NavLink className="navlink" to="/home">
+              <Dashboard className="icon" />
+              <span>Dashboard</span>
+            </NavLink>
           </li>
           <p className="title">LIST</p>
           <li>
-            <NavLink className="navlink" to="/users">
+            <NavLink className="navlink" to={`/portfolio/${userEmail}`}>
               <PersonOutline className="icon" />
-              <span>Transactions</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink className="navlink" to="/post">
-              <Article className="icon" />
               <span>Portfolio</span>
             </NavLink>
           </li>
           <li>
+            <NavLink className="navlink" to={`/transactions/${userEmail}`}>
+              <Article className="icon" />
+              <span>Transactions</span>
+            </NavLink>
+          </li>
+          {/* <li>
             <NavLink className="navlink" to="/analyst">
               <CandlestickChart className="icon" />
               <span>Trade</span>
             </NavLink>
-          </li>
-          <li>
+          </li> */}
+          {/* <li>
             <NavLink className="navlink" to="/makepost">
               <PostAdd className="icon" />
               <span>Profile</span>
             </NavLink>
-          </li>
-          <li className="bottom">
-            <NavLink className="navlink" to="/makepost">
+          </li> */}
+          <li onClick={logout} className="bottom">
+            <NavLink className="navlink" to="/login">
               <Logout className="icon red" />
               <span>Logout</span>
             </NavLink>

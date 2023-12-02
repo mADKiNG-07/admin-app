@@ -62,11 +62,13 @@ legend {
 }
 
 .input {
-  width: 3rem;
+  width: 1.5rem;
   height: 3rem;
   font-size: 1rem;
-  border-bottom: 1.5px solid black;
+  background: none;
+  border-bottom: 1.5px solid rgb(255, 255, 255);
   border-top: none;
+  color: white;
   border-left: none;
   border-right: none;
   text-align: center;
@@ -92,6 +94,10 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.space {
+  margin-left: 20px;
 }
 
 .prev_next {

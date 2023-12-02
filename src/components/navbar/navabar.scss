@@ -1,70 +1,286 @@
-.navbar {
-  height: 50px;
-  border-bottom: 0.5px solid rgb(231, 228, 228);
-  display: flex;
-  align-items: center;
-  font-size: 14px;
+.sidebar-menu {
+  display: none;
+}
 
-  .wrapper {
-    width: 100%;
-    display: flex;
-    padding: 20px;
-    align-items: center;
-    justify-content: space-between;
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .sidebar-menu {
+    display: block;
+    position: relative;
+    top: 15px;
+    left: 20px;
+    z-index: 1;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 100px;
+    // margin-top: 10px;
+    // height: 100% !important;
+    // margin-bottom: 20px;s
+    /*
+    * Just a quick hamburger
+    */
+  }
+  .sidebar-menu .hamburger-box {
+    display: block;
+    width: 40px;
+    position: absolute;
+    top: -7px;
+    left: -5px;
+    cursor: pointer;
+    opacity: 0;
+    /* hide this */
+    z-index: 2;
+    /* and place it over the hamburger */
+    -webkit-touch-callout: none;
+    /* 
+    * Transform all the slices of hamburger
+    * into a crossmark.
+    */
+    /*
+     * And let's slide it in from the left
+     */
+  }
+  .sidebar-menu .hamburger-box:checked ~ .hamburger-icon {
+    opacity: 1;
+    transform: rotate(45deg) translate(-2px, -1px);
+    background: rgb(225, 161, 0);
+    /*
+    * But let's hide the middle one.
+    */
+    /*
+    * Ohyeah and the last one should go the other direction
+    */
+  }
+  .sidebar-menu .hamburger-box:checked ~ .hamburger-icon:nth-last-child(3) {
+    opacity: 0;
+    transform: rotate(0deg) scale(0.2, 0.2);
+  }
+  .sidebar-menu .hamburger-box:checked ~ .hamburger-icon:nth-last-child(2) {
+    transform: rotate(-45deg) translate(0, -1px);
+  }
+  .sidebar-menu .hamburger-box:checked ~ ul {
+    transform: none;
+  }
+  .sidebar-menu .hamburger-icon {
+    display: block;
+    width: 33px;
+    height: 4px;
+    margin-bottom: 5px;
+    position: relative;
+    background: rgb(225, 161, 0);
+    border-radius: 3px;
+    z-index: 1;
+    transform-origin: 4px 0px;
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+      background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+  }
+  .sidebar-menu .hamburger-icon:first-child {
+    transform-origin: 0% 0%;
+  }
+  .sidebar-menu .hamburger-icon:nth-last-child(2) {
+    transform-origin: 0% 100%;
+  }
 
-    .search {
+  /*
+   * Make this absolute positioned
+   * at the top left of the screen
+   */
+  .menu-links {
+    position: fixed;
+    width: 80%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    padding-top: 70px;
+    background: rgb(33, 33, 33);
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+    overflow-y: auto; /* Add this to enable scrolling if the menu content exceeds the screen height */
+
+    .top {
+      height: 70px;
       display: flex;
       align-items: center;
-      border: 0.5px solid lightgray;
-      padding: 3px;
+      justify-content: center;
+      // margin-left: 25px;
+      // margin-top: 25px;
+      margin-bottom: 25px;
+      color: white;
+      border-bottom: 1.5px solid rgb(33, 33, 33);
 
-      input {
+      .username {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 0;
+        padding: 0px;
+      }
+
+      .details {
+        // margin-left: 10px;
+        line-height: 20px;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+        .avatar {
+          width: 50px;
+          height: 50px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin-right: 10px;
+          border-radius: 50%;
+          // background-color: #797979;
+          overflow: hidden;
+
+          .img {
+            /* Ensure the image takes up the entire space of the avatar div */
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+          }
+        }
+      }
+
+      .email {
+        font-size: 13px;
+        padding: 0px;
+        font-weight: 400;
+        color: rgb(130, 130, 130);
+      }
+
+      .generate {
         border: none;
-        outline: none;
-        background: transparent;
-
-        &::placeholder {
-          font-size: 12px;
+        padding: 7px 20px;
+        border-radius: 6px;
+        margin-top: 13px;
+        font-size: 13px;
+        font-weight: normal;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgb(0, 0, 0);
+        background-color: rgb(225, 161, 0);
+        .icon2 {
+          font-size: 18px;
+          margin-right: 5px;
+          color: rgb(0, 0, 0);
         }
       }
     }
 
-    .items {
-      display: flex;
-      align-items: center;
+    .center {
+      // padding-left: 10px;
+      margin-top: 40px;
 
-      .item {
-        display: flex;
-        align-items: center;
-        margin-right: 20px;
-        position: relative;
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
 
-        .icon {
-          font-size: 20px;
+        .title {
+          font-size: 15px;
+          font-weight: bold;
+          color: rgb(225, 161, 0);
+          margin-top: 15px;
+          margin-bottom: 5px;
         }
 
-        .avatar {
-          width: 30px;
-          height: 30px;
-          border-radius: 50%;
-        }
-
-        .counter {
-          width: 15px;
-          height: 15px;
-          background-color: red;
-          border-radius: 50%;
-          color: white;
+        li {
           display: flex;
           align-items: center;
-          justify-content: center;
-          font-size: 10px;
-          font-weight: bold;
-          position: absolute;
-          top: -5px;
-          right: -5px;
+          padding: 5px;
+          margin-top: 8px;
+
+          // &:hover {
+          //   background-color: rgba(225, 161, 0, 0.185);
+          // }
+
+          .icon {
+            font-size: 18px;
+            color: rgb(130, 130, 130);
+          }
+
+          .red {
+            color: rgb(225, 0, 0);
+          }
+
+          span {
+            font-size: 17px;
+            font-weight: 500;
+            color: #797979;
+            margin-left: 10px;
+          }
+
+          .navlink {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+          }
+        }
+      }
+
+      .bottom {
+        position: fixed;
+        display: flex;
+        align-items: center;
+        // position: absolute;
+        bottom: 0;
+        margin-bottom: 30px;
+        // padding-left: 10px;
+
+        // // &:hover {
+        //   background-color: rgba(225, 161, 0, 0.185);
+        // }
+
+        .icon {
+          font-size: 18px;
+          color: rgb(225, 0, 0);
+        }
+
+        span {
+          font-size: 15px;
+          font-weight: 500;
+          color: #ff0000;
+          margin-left: 10px;
         }
       }
     }
   }
+
+  .menu-links li {
+    padding: 10px 0;
+    font-size: 22px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #232323;
+    transition: color 0.3s ease;
+  }
+
+  a:hover {
+    color: tomato;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }

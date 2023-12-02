@@ -14,7 +14,7 @@
   .left {
     flex: 3;
     min-height: 100vh;
-    background-color: white;
+    background-color: black;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,13 +33,14 @@
       h2 {
         font-size: 30px;
         font-weight: 800;
-        color: rgb(130, 130, 130);
+        color: rgb(255, 183, 0);
         line-height: 1.2;
         font-family: "Aclonica", sans-serif;
       }
 
       p {
         // margin-top: 10px;
+        color: white;
         font-size: 15px;
         width: 320px;
       }
@@ -123,6 +124,31 @@
       // align-items: flex-start;
       // margin-left: 35px;
       // margin-top: 20px;
+      form {
+        color: white;
+        .row {
+          .edit,
+          .col {
+            input {
+              background: grey;
+              border: none;
+              color: black;
+            }
+            ::placeholder {
+              color: rgb(61, 61, 61) !important;
+            }
+          }
+        }
+
+        .edit,
+        .col {
+          input {
+            background: grey;
+            border: none;
+            color: black;
+          }
+        }
+      }
     }
 
     .bonttom {
